@@ -7,13 +7,15 @@ import { createCompositeKey, Node } from "./composite_key.ts";
 
 export function memo<T, Args extends unknown[], R>(
   fn: (this: T, ...args: Args) => R,
-  cache: CacheMap<object, R> = new WeakMap<object, R>(),
+  cache: Entity<object, R> = new WeakMap<object, R>(),
+  /** Filter arguments for cache keys. */
+  keys?: (args: Args) => unknown[],
 ): (this: T, ...args: Args) => R {
   const node = new Node();
   const compositeKey = createCompositeKey(node);
 
   return function memoized(this: T, ...args: Args): R {
-    const key = compositeKey(this, new.target, ...args);
+    const key = compositeKey(this, new.target, ...keys ? keys(args) : args);
 
     if (cache.has(key)) return cache.get(key)!;
 
@@ -25,20 +27,11 @@ export function memo<T, Args extends unknown[], R>(
   };
 }
 
-export interface CacheMap<K, V> {
-  /**
-   * @returns a specified element.
-   */
+export interface Entity<K, V> {
   get(key: K): V | undefined;
 
-  /**
-   * @returns a boolean indicating whether an element with the specified key exists or not.
-   */
   has(key: K): boolean;
 
-  /**
-   * Adds a new element with a specified key and value.
-   * @param key Must be an object.
-   */
+  /** Adds a new element with a specified key and value. */
   set(key: K, value: V): void;
 }

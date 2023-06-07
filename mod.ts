@@ -1,4 +1,4 @@
 // Copyright 2023-latest Tomoki Miyauchi. All rights reserved. MIT license.
 // This module is browser compatible.
 
-export { type CacheMap, memo } from "./memo.ts";
+export { type Entity, memo } from "./memo.ts";
