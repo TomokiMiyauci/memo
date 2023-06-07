@@ -1,7 +1,8 @@
 # memo
 
-Memoization tools, implementation of TC39
-[proposal-function-memo](https://github.com/tc39/proposal-function-memo).
+Memoization tools, TC39
+[proposal-function-memo](https://github.com/tc39/proposal-function-memo)
+implementation.
 
 ## Entrypoint
 
