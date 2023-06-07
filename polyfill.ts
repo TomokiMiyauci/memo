@@ -1,3 +1,6 @@
+// Copyright 2023-latest Tomoki Miyauchi. All rights reserved. MIT license.
+// This module is browser compatible.
+
 // deno-lint-ignore-file ban-types no-explicit-any
 import { type MapLike, memo } from "./memo.ts";
 
