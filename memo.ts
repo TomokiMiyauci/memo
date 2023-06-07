@@ -3,7 +3,7 @@
 
 // deno-lint-ignore-file ban-types
 
-import { createCompositeKey, Node } from "./composite_key.ts";
+import { compositeKey } from "./composite_key.ts";
 
 export function memo<T, Args extends unknown[], R>(
   fn: (this: T, ...args: Args) => R,
@@ -11,11 +11,8 @@ export function memo<T, Args extends unknown[], R>(
   /** Filter arguments for cache keys. */
   keys?: (args: Args) => unknown[],
 ): (this: T, ...args: Args) => R {
-  const node = new Node();
-  const compositeKey = createCompositeKey(node);
-
   return function memoized(this: T, ...args: Args): R {
-    const key = compositeKey(this, new.target, ...keys ? keys(args) : args);
+    const key = compositeKey(fn, this, new.target, ...keys ? keys(args) : args);
 
     if (cache.has(key)) return cache.get(key)!;
 
