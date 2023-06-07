@@ -5,18 +5,19 @@
 
 import { compositeKey } from "./composite_key.ts";
 
-export function memo<T, Args extends unknown[], R>(
-  fn: (this: T, ...args: Args) => R,
+// deno-lint-ignore no-explicit-any
+export function memo<A extends any[], R>(
+  fn: (...args: A) => R,
   cache: MapLike<object, R> = new WeakMap<object, R>(),
   /** Filter arguments for cache keys. */
-  keys?: (args: Args) => unknown[],
-): (this: T, ...args: Args) => R {
-  return function memoized(this: T, ...args: Args): R {
-    const key = compositeKey(fn, this, new.target, ...keys ? keys(args) : args);
+  keys?: (args: A) => unknown[],
+): (...args: A) => R {
+  return function memoized(...args: A): R {
+    const key = compositeKey(fn, new.target, ...keys ? keys(args) : args);
 
     if (cache.has(key)) return cache.get(key)!;
 
-    const value = fn.apply(this, args);
+    const value = fn.apply(null, args);
 
     cache.set(key, value);
 
