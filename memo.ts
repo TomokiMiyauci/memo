@@ -7,7 +7,7 @@ import { compositeKey } from "./composite_key.ts";
 
 export function memo<T, Args extends unknown[], R>(
   fn: (this: T, ...args: Args) => R,
-  cache: Entity<object, R> = new WeakMap<object, R>(),
+  cache: MapLike<object, R> = new WeakMap<object, R>(),
   /** Filter arguments for cache keys. */
   keys?: (args: Args) => unknown[],
 ): (this: T, ...args: Args) => R {
@@ -24,7 +24,7 @@ export function memo<T, Args extends unknown[], R>(
   };
 }
 
-export interface Entity<K, V> {
+export interface MapLike<K, V> {
   get(key: K): V | undefined;
 
   has(key: K): boolean;
