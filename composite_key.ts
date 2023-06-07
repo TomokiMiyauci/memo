@@ -43,9 +43,10 @@ class CompositeNodeWithLifetime extends CompositeNode {
     return positions.get(position);
   }
 }
-const compoundStore = new CompositeNodeWithLifetime();
+const compoundStore = /* @__PURE__ */ new CompositeNodeWithLifetime();
 // accepts multiple objects as a key and does identity on the parts of the iterable
-export const compositeKey = (...parts: readonly unknown[]) => {
+
+export function compositeKey(...parts: readonly unknown[]): Ref {
   let node = compoundStore;
   for (let i = 0; i < parts.length; i++) {
     const value = parts[i];
@@ -66,14 +67,15 @@ export const compositeKey = (...parts: readonly unknown[]) => {
     }
   }
   return node.get();
-};
-const symbols = new WeakMap();
+}
 
-export const compositeSymbol = (...parts: readonly unknown[]) => {
+const symbols = /* @__PURE__ */ new WeakMap<object, symbol>();
+
+export function compositeSymbol(...parts: readonly unknown[]): symbol {
   if (parts.length === 1 && typeof parts[0] === "string") {
     return Symbol.for(parts[0]);
   }
   const key = compositeKey(symbols, ...parts);
   if (!symbols.has(key)) symbols.set(key, Symbol());
-  return symbols.get(key);
-};
+  return symbols.get(key)!;
+}
