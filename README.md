@@ -32,7 +32,7 @@ The entrypoint of each are as follows:
 for each tuple of given arguments.
 
 ```ts
-import { memo } from "https://deno.land/x/memoiz@$VERSION/mod.ts";
+import { memo } from "https://deno.land/x/memoization@$VERSION/mod.ts";
 
 function f(x: number): number {
   console.log(x);
