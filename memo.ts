@@ -4,15 +4,15 @@
 // deno-lint-ignore-file ban-types
 
 import { compositeKey } from "./composite_key.ts";
+import { setFunctionLength, setFunctionName } from "./utils.ts";
 
-// deno-lint-ignore no-explicit-any
-export function memo<A extends any[], R>(
+export function memo<A extends unknown[], R>(
   fn: (...args: A) => R,
   cache: MapLike<object, R> = new WeakMap<object, R>(),
   /** Filter arguments for cache keys. */
   keys?: (args: A) => unknown[],
 ): (...args: A) => R {
-  return function memoized(...args: A): R {
+  function memoized(...args: A): R {
     const key = compositeKey(fn, new.target, ...keys ? keys(args) : args);
 
     if (cache.has(key)) return cache.get(key)!;
@@ -22,7 +22,12 @@ export function memo<A extends any[], R>(
     cache.set(key, value);
 
     return value;
-  };
+  }
+
+  setFunctionLength(memoized, fn.length);
+  setFunctionName(memoized, fn.name, "memoized");
+
+  return memoized;
 }
 
 export interface MapLike<K, V> {
