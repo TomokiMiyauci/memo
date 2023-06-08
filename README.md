@@ -1,5 +1,14 @@
 # memo
 
+[![deno land](http://img.shields.io/badge/available%20on-deno.land/x-lightgrey.svg?logo=deno)](https://deno.land/x/memoization)
+[![deno doc](https://doc.deno.land/badge.svg)](https://deno.land/x/memoization/mod.ts)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/TomokiMiyauci/memoization)](https://github.com/TomokiMiyauci/memoization/releases)
+[![codecov](https://codecov.io/github/TomokiMiyauci/memoization/branch/main/graph/badge.svg)](https://codecov.io/gh/TomokiMiyauci/memoization)
+[![GitHub](https://img.shields.io/github/license/TomokiMiyauci/memoization)](https://github.com/TomokiMiyauci/memoization/blob/main/LICENSE)
+
+[![test](https://github.com/TomokiMiyauci/memoization/actions/workflows/test.yaml/badge.svg)](https://github.com/TomokiMiyauci/memoization/actions/workflows/test.yaml)
+[![NPM](https://nodei.co/npm/@miyauci/memo.png?mini=true)](https://nodei.co/npm/@miyauci/memo/)
+
 Memoization tools, TC39
 [proposal-function-memo](https://github.com/tc39/proposal-function-memo)
 implementation.
@@ -23,7 +32,7 @@ The entrypoint of each are as follows:
 for each tuple of given arguments.
 
 ```ts
-import { memo } from "https://deno.land/x/memoization@$VERSION/mod.ts";
+import { memo } from "https://deno.land/x/memoiz@$VERSION/mod.ts";
 
 function f(x: number): number {
   console.log(x);
