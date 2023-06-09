@@ -1,5 +1,14 @@
 # memo
 
+[![deno land](http://img.shields.io/badge/available%20on-deno.land/x-lightgrey.svg?logo=deno)](https://deno.land/x/memoization)
+[![deno doc](https://doc.deno.land/badge.svg)](https://deno.land/x/memoization/mod.ts)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/TomokiMiyauci/memo)](https://github.com/TomokiMiyauci/memo/releases)
+[![codecov](https://codecov.io/github/TomokiMiyauci/memo/branch/main/graph/badge.svg)](https://codecov.io/gh/TomokiMiyauci/memo)
+[![GitHub](https://img.shields.io/github/license/TomokiMiyauci/memo)](https://github.com/TomokiMiyauci/memo/blob/main/LICENSE)
+
+[![test](https://github.com/TomokiMiyauci/memo/actions/workflows/test.yaml/badge.svg)](https://github.com/TomokiMiyauci/memo/actions/workflows/test.yaml)
+[![NPM](https://nodei.co/npm/@miyauci/memo.png?mini=true)](https://nodei.co/npm/@miyauci/memo/)
+
 Memoization tools, TC39
 [proposal-function-memo](https://github.com/tc39/proposal-function-memo)
 implementation.
@@ -8,7 +17,7 @@ implementation.
 
 This project provides ponyfill and polyfill.
 
-Polyfill has a side effect, so its endpoints are separated.
+Polyfill has a side effect, so its endpoints are isolated.
 
 The entrypoint of each are as follows:
 
@@ -20,7 +29,7 @@ The entrypoint of each are as follows:
 ## Memoize
 
 `memo` would create a new function that calls the original function at most once
-for each tuple of given arguments.
+for each given arguments.
 
 ```ts
 import { memo } from "https://deno.land/x/memoization@$VERSION/mod.ts";
@@ -91,7 +100,7 @@ The equivalence of composite key is the
 [Same-value-zero](https://tc39.es/ecma262/#sec-samevaluezero) algorithm. By
 default, all arguments are used for the cache key.
 
-Specify `keys` to change the representation of arguments used for cache keys.
+Specify `keying` to change the representation of arguments used for cache keys.
 
 ```ts
 import {
@@ -123,6 +132,10 @@ const fib = ((num: number): number => {
 
 fib(1000);
 ```
+
+## API
+
+See [deno doc](https://deno.land/x/memoization/mod.ts) for all APIs.
 
 ## License
 
