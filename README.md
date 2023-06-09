@@ -17,7 +17,7 @@ implementation.
 
 This project provides ponyfill and polyfill.
 
-Polyfill has a side effect, so its endpoints are separated.
+Polyfill has a side effect, so its endpoints are isolated.
 
 The entrypoint of each are as follows:
 
