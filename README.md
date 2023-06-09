@@ -2,11 +2,11 @@
 
 [![deno land](http://img.shields.io/badge/available%20on-deno.land/x-lightgrey.svg?logo=deno)](https://deno.land/x/memoization)
 [![deno doc](https://doc.deno.land/badge.svg)](https://deno.land/x/memoization/mod.ts)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/TomokiMiyauci/memoization)](https://github.com/TomokiMiyauci/memoization/releases)
-[![codecov](https://codecov.io/github/TomokiMiyauci/memoization/branch/main/graph/badge.svg)](https://codecov.io/gh/TomokiMiyauci/memoization)
-[![GitHub](https://img.shields.io/github/license/TomokiMiyauci/memoization)](https://github.com/TomokiMiyauci/memoization/blob/main/LICENSE)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/TomokiMiyauci/memo)](https://github.com/TomokiMiyauci/memo/releases)
+[![codecov](https://codecov.io/github/TomokiMiyauci/memo/branch/main/graph/badge.svg)](https://codecov.io/gh/TomokiMiyauci/memo)
+[![GitHub](https://img.shields.io/github/license/TomokiMiyauci/memo)](https://github.com/TomokiMiyauci/memo/blob/main/LICENSE)
 
-[![test](https://github.com/TomokiMiyauci/memoization/actions/workflows/test.yaml/badge.svg)](https://github.com/TomokiMiyauci/memoization/actions/workflows/test.yaml)
+[![test](https://github.com/TomokiMiyauci/memo/actions/workflows/test.yaml/badge.svg)](https://github.com/TomokiMiyauci/memo/actions/workflows/test.yaml)
 [![NPM](https://nodei.co/npm/@miyauci/memo.png?mini=true)](https://nodei.co/npm/@miyauci/memo/)
 
 Memoization tools, TC39
@@ -132,6 +132,10 @@ const fib = ((num: number): number => {
 
 fib(1000);
 ```
+
+## API
+
+See [deno doc](https://deno.land/x/memoization/mod.ts) for all APIs.
 
 ## License
 
