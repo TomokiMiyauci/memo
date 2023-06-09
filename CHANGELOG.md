@@ -1,3 +1,10 @@
+# [1.0.0-beta.2](https://github.com/TomokiMiyauci/memo/compare/1.0.0-beta.1...1.0.0-beta.2) (2023-06-09)
+
+
+### Features
+
+* **polyfill:** change generics constraint ([64f711b](https://github.com/TomokiMiyauci/memo/commit/64f711b47ec7d2434397e80d2612815eeecf4763))
+
 # 1.0.0-beta.1 (2023-06-09)
 
 
