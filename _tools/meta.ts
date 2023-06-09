@@ -4,7 +4,7 @@ export const makeOptions = (version: string): BuildOptions => ({
   test: false,
   shims: {},
   typeCheck: true,
-  entryPoints: ["./mod.ts"],
+  entryPoints: ["./mod.ts", "./polyfill.ts"],
   outDir: "./npm",
   package: {
     name: "@miyauci/memo",
