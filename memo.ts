@@ -43,10 +43,10 @@ export function memo<A extends unknown[], R>(
   fn: (...args: A) => R,
   cache: MapLike<object, R> = new WeakMap<object, R>(),
   /** Keying for cache key. */
-  keys?: (args: A) => unknown[],
+  keying?: (args: A) => unknown[],
 ): (...args: A) => R {
   function memoized(...args: A): R {
-    const key = compositeKey(fn, new.target, ...keys ? keys(args) : args);
+    const key = compositeKey(fn, new.target, ...keying ? keying(args) : args);
 
     if (cache.has(key)) return cache.get(key)!;
 

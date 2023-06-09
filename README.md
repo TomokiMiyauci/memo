@@ -100,7 +100,7 @@ The equivalence of composite key is the
 [Same-value-zero](https://tc39.es/ecma262/#sec-samevaluezero) algorithm. By
 default, all arguments are used for the cache key.
 
-Specify `keys` to change the representation of arguments used for cache keys.
+Specify `keying` to change the representation of arguments used for cache keys.
 
 ```ts
 import {
