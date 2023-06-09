@@ -2,26 +2,32 @@
 // This module is browser compatible.
 // deno-lint-ignore-file ban-types
 
-/**
+const descriptor: PropertyDescriptor = {
+  writable: false,
+  enumerable: false,
+  configurable: true,
+};
+
+/** The abstract operation SetFunctionLength takes arguments function and length and returns unused.
  * @see https://tc39.es/ecma262/multipage/ordinary-and-exotic-objects-behaviours.html#sec-setfunctionlength
  */
-export function setFunctionLength(fn: Function, length: number): void {
-  Object.defineProperty(fn, "length", {
-    writable: false,
-    enumerable: false,
-    configurable: true,
-    value: length,
-  });
+export function setFunctionLength(fn: Function, length: number): Function {
+  /**
+   * 1. Assert: F is an extensible object that does not have a "length" own property.
+   * 2. Perform ! DefinePropertyOrThrow(F, "length", PropertyDescriptor { [[Value]]: 𝔽(length), [[Writable]]: false, [[Enumerable]]: false, [[Configurable]]: true }).
+   * 3. Return unused.
+   */
+  return Object.defineProperty(fn, "length", { ...descriptor, value: length });
 }
 
-/**
+/** The abstract operation takes arguments function and name and optional argument prefix and returns unused.
  * @see https://tc39.es/ecma262/multipage/ordinary-and-exotic-objects-behaviours.html#sec-setfunctionname
  */
 export function setFunctionName(
   fn: Function,
   name: string,
   prefix: string,
-): void {
+): Function {
   /**
    * 1. Assert: F is an extensible object that does not have a "name" own property.
    * 2. If name is a Symbol, then
@@ -42,10 +48,5 @@ export function setFunctionName(
 
   const value = prefix + " " + name;
 
-  Object.defineProperty(fn, "name", {
-    writable: false,
-    enumerable: false,
-    configurable: true,
-    value,
-  });
+  return Object.defineProperty(fn, "name", { ...descriptor, value });
 }
