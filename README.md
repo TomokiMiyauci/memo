@@ -29,7 +29,7 @@ The entrypoint of each are as follows:
 ## Memoize
 
 `memo` would create a new function that calls the original function at most once
-for each tuple of given arguments.
+for each given arguments.
 
 ```ts
 import { memo } from "https://deno.land/x/memoization@$VERSION/mod.ts";
