@@ -3,7 +3,7 @@
 
 // deno-lint-ignore-file ban-types
 
-import { compositeKey } from "./composite_key.ts";
+import { compositeKey } from "./deps.ts";
 import { setFunctionLength, setFunctionName } from "./utils.ts";
 
 /** Create a new function that calls the original function at most once for each given arguments.
