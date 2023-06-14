@@ -1,113 +1,85 @@
-// From [proposal-richer-keys, compositeKey, polyfill](https://github.com/tc39/proposal-richer-keys/blob/master/compositeKey/polyfill.js)
 // deno-lint-ignore-file ban-types
 
-import { partition } from "./deps.ts";
+import {
+  EmplaceableMap,
+  EmplaceableWeakMap,
+  isFunction,
+  isObject,
+  isString,
+} from "./deps.ts";
 
 export type Ref = Readonly<{ __proto__: null }>;
 
 function hasLifetime(value: unknown): value is object | Function {
-  return value !== null &&
-    (typeof value === "object" || typeof value === "function");
+  return isObject(value) || isFunction(value);
 }
 
-class CompositeNode {
-  private primitiveNodes: Map<unknown, Map<number, CompositeNode>> = new Map();
-  private value: Ref | null = null;
-
-  get(): Ref {
-    if (this.value === null) {
-      return this.value = Object.freeze({ __proto__: null });
-    }
-    return this.value;
-  }
-
-  emplacePrimitive(value: unknown, position: number): CompositeNode {
-    if (!this.primitiveNodes.has(value)) {
-      this.primitiveNodes.set(value, new Map());
-    }
-
-    const positions = this.primitiveNodes.get(value)!;
-
-    if (!positions.has(position)) {
-      positions.set(position, new CompositeNode());
-    }
-
-    return positions.get(position)!;
+class RefContainer {
+  #value: Ref | undefined;
+  get value(): Ref {
+    return this.#value ?? (this.#value = Object.freeze({ __proto__: null }));
   }
 }
 
-class CompositeNodeWithLifetime extends CompositeNode {
-  private lifetimeNodes: WeakMap<
+class Compositor extends RefContainer {
+  #map: EmplaceableMap<unknown, EmplaceableMap<number, Compositor>> | undefined;
+  #weakMap:
+    | EmplaceableWeakMap<object, EmplaceableMap<number, Compositor>>
+    | undefined;
+
+  get map(): EmplaceableMap<unknown, EmplaceableMap<number, Compositor>> {
+    return this.#map ?? (this.#map = new EmplaceableMap());
+  }
+
+  get weakMap(): EmplaceableWeakMap<
     object,
-    Map<unknown, CompositeNodeWithLifetime>
-  > = new WeakMap();
+    EmplaceableMap<number, Compositor>
+  > {
+    return this.#weakMap ?? (this.#weakMap = new EmplaceableWeakMap());
+  }
 
-  emplaceLifetime(value: object, position: number): CompositeNodeWithLifetime {
-    if (!this.lifetimeNodes.has(value)) {
-      this.lifetimeNodes.set(value, new Map());
-    }
-    const positions = this.lifetimeNodes.get(value)!;
+  emplace(value: unknown, position: number): Compositor {
+    const positions = hasLifetime(value)
+      ? this.weakMap.emplace(value, Handler)
+      : this.map.emplace(value, Handler);
+    const compositor = positions.emplace(position, {
+      insert: () => new Compositor(),
+    });
 
-    if (!positions.has(position)) {
-      positions.set(position, new CompositeNodeWithLifetime());
-    }
-
-    return positions.get(position)!;
+    return compositor;
   }
 }
-const compoundStore = /* @__PURE__ */ new CompositeNodeWithLifetime();
+
+class Handler {
+  static insert(): EmplaceableMap<number, Compositor> {
+    return new EmplaceableMap<number, Compositor>();
+  }
+}
+
+const compositor = /* @__PURE__ */ new Compositor();
 // accepts multiple objects as a key and does identity on the parts of the iterable
 
 export function compositeKey(...parts: readonly unknown[]): Ref {
-  const [objects, primitives] = partition(
-    [...parts.entries()],
-    isEntryHasLifetime,
-  );
+  const includeObj = parts.some(hasLifetime);
 
   // does not leak WeakMap paths since there are none added
-  if (!objects.length) {
+  if (!includeObj) {
     throw new TypeError(
       "Composite keys must contain a non-primitive component",
     );
   }
 
-  const composites = objects.reduce(lifetimeReducer, compoundStore);
-
-  return primitives
-    .reduce(primitiveReducer, composites)
-    .get();
+  return [...parts.entries()]
+    .reduce((acc, [key, value]) => acc.emplace(value, key), compositor)
+    .value;
 }
 
-const symbols = /* @__PURE__ */ new WeakMap<object, symbol>();
+const symbols = /* @__PURE__ */ new EmplaceableWeakMap<object, symbol>();
 
 export function compositeSymbol(...parts: readonly unknown[]): symbol {
-  if (parts.length === 1 && typeof parts[0] === "string") {
-    return Symbol.for(parts[0]);
-  }
+  if (parts.length === 1 && isString(parts[0])) return Symbol.for(parts[0]);
 
   const key = compositeKey(symbols, ...parts);
 
-  if (!symbols.has(key)) symbols.set(key, Symbol());
-
-  return symbols.get(key)!;
-}
-
-function isEntryHasLifetime(
-  entry: [key: number, value: unknown],
-): entry is [number, object | Function] {
-  return hasLifetime(entry[1]);
-}
-
-function lifetimeReducer(
-  acc: CompositeNodeWithLifetime,
-  [key, value]: [key: number, value: object | Function],
-): CompositeNodeWithLifetime {
-  return acc.emplaceLifetime(value, key);
-}
-
-function primitiveReducer(
-  acc: CompositeNode,
-  [key, value]: [key: number, value: unknown],
-): CompositeNode {
-  return acc.emplacePrimitive(value, key);
+  return symbols.emplace(key, { insert: () => Symbol() });
 }

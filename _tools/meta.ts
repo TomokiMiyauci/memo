@@ -34,4 +34,25 @@ export const makeOptions = (version: string): BuildOptions => ({
     publishConfig: { access: "public" },
   },
   packageManager: "pnpm",
+  mappings: {
+    "https://deno.land/x/upsert@1.1.0/mod.ts": {
+      name: "@miyauci/upsert",
+      version: "1.1.0",
+    },
+    "https://deno.land/x/isx@1.4.0/is_string.ts": {
+      name: "@miyauci/isx",
+      version: "1.4.0",
+      subPath: "is_string.js",
+    },
+    "https://deno.land/x/isx@1.4.0/is_object.ts": {
+      name: "@miyauci/isx",
+      version: "1.4.0",
+      subPath: "is_object.js",
+    },
+    "https://deno.land/x/isx@1.4.0/is_function.ts": {
+      name: "@miyauci/isx",
+      version: "1.4.0",
+      subPath: "is_function.js",
+    },
+  },
 });
