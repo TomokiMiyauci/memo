@@ -4,7 +4,6 @@
 // deno-lint-ignore-file ban-types
 
 import { compositeKey } from "./deps.ts";
-import { setFunctionLength, setFunctionName } from "./utils.ts";
 
 /** Create a new function that calls the original function at most once for each given arguments.
  * @example
@@ -39,28 +38,27 @@ import { setFunctionLength, setFunctionName } from "./utils.ts";
  * fib(1000);
  * ```
  */
-export function memo<A extends unknown[], R>(
-  fn: (...args: A) => R,
+export function memo<T, A extends unknown[], R>(
+  fn: T & ((...args: A) => R),
   cache: MapLike<object, R> = new WeakMap<object, R>(),
   /** Keying for cache key. */
   keying?: (args: A) => unknown[],
-): (...args: A) => R {
-  function memoized(...args: A): R {
-    const key = compositeKey(fn, new.target, ...keying ? keying(args) : args);
+): T {
+  const proxy = new Proxy(fn, {
+    apply(target, thisArg, args: A) {
+      const key = compositeKey(target, ...keying ? keying(args) : args);
 
-    if (cache.has(key)) return cache.get(key)!;
+      if (cache.has(key)) return cache.get(key)!;
 
-    const value = fn.apply(null, args);
+      const value = target.apply(thisArg, args);
 
-    cache.set(key, value);
+      cache.set(key, value);
 
-    return value;
-  }
+      return value;
+    },
+  });
 
-  setFunctionLength(memoized, fn.length);
-  setFunctionName(memoized, fn.name, "memoized");
-
-  return memoized;
+  return proxy;
 }
 
 /** {@link Map} like object. */
