@@ -46,7 +46,11 @@ export function memo<T extends (...args: any) => any>(
 ): T {
   const proxy = new Proxy(fn, {
     apply(target, thisArg, args: Parameters<T>): ReturnType<T> {
-      const key = compositeKey(target, ...keying ? keying(args) : args);
+      const key = compositeKey(
+        target,
+        thisArg,
+        ...keying ? keying(args) : args,
+      );
 
       if (cache.has(key)) return cache.get(key)!;
 
