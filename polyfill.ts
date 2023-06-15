@@ -33,6 +33,7 @@ Function.prototype.memo = function memo<T extends (...args: any) => any>(
 
 declare global {
   interface Function {
+    /** Returns the proxy function whose call is monitored. It calls at most once for each given arguments. */
     memo<T extends (...args: any) => any>(
       this: T,
       cache?: MapLike<object, ReturnType<T>>,
