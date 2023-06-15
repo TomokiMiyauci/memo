@@ -28,8 +28,8 @@ The entrypoint of each are as follows:
 
 ## Memoize
 
-`memo` would create a new function that calls the original function at most once
-for each given arguments.
+Returns the proxy function whose call is monitored. It calls at most once for
+each given arguments.
 
 ```ts
 import { memo } from "https://deno.land/x/memoization@$VERSION/mod.ts";
@@ -93,7 +93,7 @@ const $fn = memo(fn, lruCache);
 
 ## Keying
 
-Cache keys are function references, `new.target`, and arguments represented by
+Cache keys are `this` and arguments represented by
 [composite keys](https://github.com/tc39/proposal-richer-keys/tree/master/compositeKey).
 
 The equivalence of composite key is the

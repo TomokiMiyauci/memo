@@ -5,7 +5,7 @@
 
 import { compositeKey } from "./deps.ts";
 
-/** Create a new function that calls the original function at most once for each given arguments.
+/** Returns the proxy function whose call is monitored. It calls at most once for each given arguments.
  * @example
  * ```ts
  * import { memo } from "https://deno.land/x/memoization@$VERSION/memo.ts";
