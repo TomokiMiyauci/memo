@@ -1,7 +1,7 @@
 // Copyright 2023-latest Tomoki Miyauchi. All rights reserved. MIT license.
 // This module is browser compatible.
 
-// deno-lint-ignore-file ban-types
+// deno-lint-ignore-file ban-types no-explicit-any
 
 import { compositeKey } from "./deps.ts";
 
@@ -38,14 +38,14 @@ import { compositeKey } from "./deps.ts";
  * fib(1000);
  * ```
  */
-export function memo<T, A extends unknown[], R>(
-  fn: T & ((...args: A) => R),
-  cache: MapLike<object, R> = new WeakMap<object, R>(),
+export function memo<T extends (...args: any) => any>(
+  fn: T,
+  cache: MapLike<object, ReturnType<T>> = new WeakMap(),
   /** Keying for cache key. */
-  keying?: (args: A) => unknown[],
+  keying?: (args: Parameters<T>) => unknown[],
 ): T {
   const proxy = new Proxy(fn, {
-    apply(target, thisArg, args: A) {
+    apply(target, thisArg, args: Parameters<T>): ReturnType<T> {
       const key = compositeKey(target, ...keying ? keying(args) : args);
 
       if (cache.has(key)) return cache.get(key)!;

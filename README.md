@@ -86,7 +86,7 @@ import {
 } from "https://deno.land/x/memoization@$VERSION/mod.ts";
 
 declare const lruCache: MapLike<object, unknown>;
-declare const fn: () => void;
+declare const fn: () => unknown;
 
 const $fn = memo(fn, lruCache);
 ```

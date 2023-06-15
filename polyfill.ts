@@ -1,6 +1,7 @@
 // Copyright 2023-latest Tomoki Miyauchi. All rights reserved. MIT license.
 // This module is browser compatible.
-// deno-lint-ignore-file ban-types
+
+// deno-lint-ignore-file ban-types no-explicit-any
 
 /**
  * ## Polyfill
@@ -22,20 +23,20 @@
 
 import { type MapLike, memo } from "./memo.ts";
 
-Function.prototype.memo = function <A extends unknown[], R>(
-  this: (...args: A) => R,
-  cache?: MapLike<object, R>,
-  keying?: (args: A) => unknown[],
-): (...args: A) => R {
+Function.prototype.memo = function <T extends (...args: any) => any>(
+  this: T,
+  cache?: MapLike<object, ReturnType<T>>,
+  keying?: (args: Parameters<T>) => unknown[],
+): T {
   return memo(this, cache, keying);
 };
 
 declare global {
   interface Function {
-    memo<A extends unknown[], R>(
-      this: (...args: A) => R,
-      cache?: MapLike<object, R>,
-      keying?: (args: A) => unknown[],
-    ): (...args: A) => R;
+    memo<T extends (...args: any) => any>(
+      this: T,
+      cache?: MapLike<object, ReturnType<T>>,
+      keying?: (args: Parameters<T>) => unknown[],
+    ): T;
   }
 }
