@@ -21,14 +21,14 @@
  * ```
  */
 
-import { type MapLike, memo } from "./memo.ts";
+import { type MapLike, memo as _memo } from "./memo.ts";
 
-Function.prototype.memo = function <T extends (...args: any) => any>(
+Function.prototype.memo = function memo<T extends (...args: any) => any>(
   this: T,
   cache?: MapLike<object, ReturnType<T>>,
   keying?: (args: Parameters<T>) => unknown[],
 ): T {
-  return memo(this, cache, keying);
+  return _memo(this, cache, keying);
 };
 
 declare global {
