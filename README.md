@@ -1,7 +1,7 @@
 # memo
 
 [![deno land](http://img.shields.io/badge/available%20on-deno.land/x-lightgrey.svg?logo=deno)](https://deno.land/x/memoization)
-[![deno doc](https://doc.deno.land/badge.svg)](https://deno.land/x/memoization/mod.ts)
+[![deno doc](https://doc.deno.land/badge.svg)](https://deno.land/x/memoization?doc)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/TomokiMiyauci/memo)](https://github.com/TomokiMiyauci/memo/releases)
 [![codecov](https://codecov.io/github/TomokiMiyauci/memo/branch/main/graph/badge.svg)](https://codecov.io/gh/TomokiMiyauci/memo)
 [![GitHub](https://img.shields.io/github/license/TomokiMiyauci/memo)](https://github.com/TomokiMiyauci/memo/blob/main/LICENSE)
@@ -135,7 +135,7 @@ fib(1000);
 
 ## API
 
-See [deno doc](https://deno.land/x/memoization/mod.ts) for all APIs.
+See [deno doc](https://deno.land/x/memoization?doc) for all APIs.
 
 ## License
 
