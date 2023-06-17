@@ -1,3 +1,13 @@
+# [1.1.0-beta.1](https://github.com/TomokiMiyauci/memo/compare/1.0.0...1.1.0-beta.1) (2023-06-17)
+
+
+### Features
+
+* **memo:** add this arg as composite key member ([0b95fab](https://github.com/TomokiMiyauci/memo/commit/0b95fabcd8bbe93c8a35bbbfe7dd86c9003d0c6e))
+* **memo:** return proxy instread of memoization fn ([3aefad2](https://github.com/TomokiMiyauci/memo/commit/3aefad2e702d64283c06349c5675e9d5f7596e01))
+* **polyfill:** add function name ([b007140](https://github.com/TomokiMiyauci/memo/commit/b00714015341d7adc2b45211e41621b76a487389))
+* reduce generics type ([3b43baf](https://github.com/TomokiMiyauci/memo/commit/3b43baf1880cd1ffd094a9aca457dc32e1feee30))
+
 # 1.0.0 (2023-06-09)
 
 
