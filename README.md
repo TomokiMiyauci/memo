@@ -64,7 +64,7 @@ const fib = memo((num: number): number => {
 fib(1000);
 ```
 
-## Custom cache
+### Custom cache
 
 To control the cache, specify `cache`.
 
@@ -94,7 +94,7 @@ declare const fn: () => unknown;
 const $fn = memo(fn, lruCache);
 ```
 
-## Keying
+### Keying
 
 Cache keys are `this` and arguments represented by
 [composite keys](https://github.com/tc39/proposal-richer-keys/tree/master/compositeKey).
@@ -120,7 +120,7 @@ const $respond = memo(
 );
 ```
 
-## Polyfill
+### Polyfill
 
 Polyfill affects the global object. You must be very careful when using it.
 
