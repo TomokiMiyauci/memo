@@ -140,7 +140,7 @@ fib(1000);
 
 See [deno doc](https://deno.land/x/memoization?doc) for all APIs.
 
-## Contribution
+## Contributing
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md)
 
