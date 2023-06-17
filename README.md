@@ -4,7 +4,7 @@
 [![deno doc](https://doc.deno.land/badge.svg)](https://deno.land/x/memoization?doc)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/TomokiMiyauci/memo)](https://github.com/TomokiMiyauci/memo/releases)
 [![codecov](https://codecov.io/github/TomokiMiyauci/memo/branch/main/graph/badge.svg)](https://codecov.io/gh/TomokiMiyauci/memo)
-[![GitHub](https://img.shields.io/github/license/TomokiMiyauci/memo)](https://github.com/TomokiMiyauci/memo/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/TomokiMiyauci/memo)](LICENSE)
 
 [![test](https://github.com/TomokiMiyauci/memo/actions/workflows/test.yaml/badge.svg)](https://github.com/TomokiMiyauci/memo/actions/workflows/test.yaml)
 [![NPM](https://nodei.co/npm/@miyauci/memo.png?mini=true)](https://nodei.co/npm/@miyauci/memo/)
@@ -64,7 +64,7 @@ const fib = memo((num: number): number => {
 fib(1000);
 ```
 
-## Custom cache
+### Custom cache
 
 To control the cache, specify `cache`.
 
@@ -94,7 +94,7 @@ declare const fn: () => unknown;
 const $fn = memo(fn, lruCache);
 ```
 
-## Keying
+### Keying
 
 Cache keys are `this` and arguments represented by
 [composite keys](https://github.com/tc39/proposal-richer-keys/tree/master/compositeKey).
@@ -120,7 +120,7 @@ const $respond = memo(
 );
 ```
 
-## Polyfill
+### Polyfill
 
 Polyfill affects the global object. You must be very careful when using it.
 
@@ -140,12 +140,10 @@ fib(1000);
 
 See [deno doc](https://deno.land/x/memoization?doc) for all APIs.
 
-## Contribution
+## Contributing
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md)
+See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## License
 
-Copyright © 2023-present [Tomoki Miyauchi](https://github.com/TomokiMiyauci).
-
-Released under the [MIT](./LICENSE) license
+[MIT](LICENSE) © 2023 Tomoki Miyauchi
