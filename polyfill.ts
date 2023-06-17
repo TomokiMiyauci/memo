@@ -4,10 +4,9 @@
 // deno-lint-ignore-file ban-types no-explicit-any
 
 /**
- * ## Polyfill
- *
  * Polyfill affects the global object. You must be very careful when using it.
  *
+ * @example
  * ```ts
  * import "https://deno.land/x/memoization@$VERSION/polyfill.ts";
  *
