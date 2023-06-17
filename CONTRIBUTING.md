@@ -2,14 +2,14 @@
 
 We welcome and appreciate all contributions.
 
-We follow the [code of conduct](./.github/CODE_OF_CONDUCT.md)
+We follow the [code of conduct](./.github/CODE_OF_CONDUCT.md).
 
 ## Submitting a pull request
 
 Before submitting a PR to any of the repos, please make sure the following is
 done:
 
-1. Give the PR a descriptive title.
+1. Give the PR a descriptive title
 2. Run [fmt](#format) in the root of repository
 3. Run [lint](#lint)
 4. Run [test](#test)
@@ -48,7 +48,7 @@ deno lint
 
 ### Test
 
-This will run all logic test and document test:
+This will run all logic test and document test.
 
 ```bash
 deno test --import-map=./_test_import_map.json --doc
