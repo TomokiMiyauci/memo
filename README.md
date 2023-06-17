@@ -1,35 +1,38 @@
 # memo
 
 [![deno land](http://img.shields.io/badge/available%20on-deno.land/x-lightgrey.svg?logo=deno)](https://deno.land/x/memoization)
-[![deno doc](https://doc.deno.land/badge.svg)](https://deno.land/x/memoization/mod.ts)
+[![deno doc](https://doc.deno.land/badge.svg)](https://deno.land/x/memoization?doc)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/TomokiMiyauci/memo)](https://github.com/TomokiMiyauci/memo/releases)
 [![codecov](https://codecov.io/github/TomokiMiyauci/memo/branch/main/graph/badge.svg)](https://codecov.io/gh/TomokiMiyauci/memo)
-[![GitHub](https://img.shields.io/github/license/TomokiMiyauci/memo)](https://github.com/TomokiMiyauci/memo/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/TomokiMiyauci/memo)](LICENSE)
 
 [![test](https://github.com/TomokiMiyauci/memo/actions/workflows/test.yaml/badge.svg)](https://github.com/TomokiMiyauci/memo/actions/workflows/test.yaml)
 [![NPM](https://nodei.co/npm/@miyauci/memo.png?mini=true)](https://nodei.co/npm/@miyauci/memo/)
+[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
+[![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 
 Memoization tools, TC39
 [proposal-function-memo](https://github.com/tc39/proposal-function-memo)
 implementation.
 
-## Entrypoint
+## Install
 
-This project provides ponyfill and polyfill.
+deno.land:
 
-Polyfill has a side effect, so its endpoints are isolated.
+```ts
+import * as mod from "https://deno.land/x/memoization@$VERSION/mod.ts";
+```
 
-The entrypoint of each are as follows:
+npm:
 
-| Type     | Entrypoint    |
-| -------- | ------------- |
-| Ponyfill | `mod.ts`      |
-| Polyfill | `polyfill.ts` |
+```bash
+npm i @miyauci/memo
+```
 
-## Memoize
+## Usage
 
-`memo` would create a new function that calls the original function at most once
-for each given arguments.
+Returns the proxy function whose call is monitored. It calls at most once for
+each given arguments.
 
 ```ts
 import { memo } from "https://deno.land/x/memoization@$VERSION/mod.ts";
@@ -61,7 +64,7 @@ const fib = memo((num: number): number => {
 fib(1000);
 ```
 
-## Custom cache
+### Custom cache
 
 To control the cache, specify `cache`.
 
@@ -86,14 +89,14 @@ import {
 } from "https://deno.land/x/memoization@$VERSION/mod.ts";
 
 declare const lruCache: MapLike<object, unknown>;
-declare const fn: () => void;
+declare const fn: () => unknown;
 
 const $fn = memo(fn, lruCache);
 ```
 
-## Keying
+### Keying
 
-Cache keys are function references, `new.target`, and arguments represented by
+Cache keys are `this` and arguments represented by
 [composite keys](https://github.com/tc39/proposal-richer-keys/tree/master/compositeKey).
 
 The equivalence of composite key is the
@@ -117,7 +120,7 @@ const $respond = memo(
 );
 ```
 
-## Polyfill
+### Polyfill
 
 Polyfill affects the global object. You must be very careful when using it.
 
@@ -135,10 +138,12 @@ fib(1000);
 
 ## API
 
-See [deno doc](https://deno.land/x/memoization/mod.ts) for all APIs.
+See [deno doc](https://deno.land/x/memoization?doc) for all APIs.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## License
 
-Copyright © 2023-present [Tomoki Miyauchi](https://github.com/TomokiMiyauci).
-
-Released under the [MIT](./LICENSE) license
+[MIT](LICENSE) © 2023 Tomoki Miyauchi

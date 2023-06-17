@@ -1,12 +1,12 @@
 // Copyright 2023-latest Tomoki Miyauchi. All rights reserved. MIT license.
 // This module is browser compatible.
-// deno-lint-ignore-file ban-types
+
+// deno-lint-ignore-file ban-types no-explicit-any
 
 /**
- * ## Polyfill
- *
  * Polyfill affects the global object. You must be very careful when using it.
  *
+ * @example
  * ```ts
  * import "https://deno.land/x/memoization@$VERSION/polyfill.ts";
  *
@@ -20,22 +20,23 @@
  * ```
  */
 
-import { type MapLike, memo } from "./memo.ts";
+import { type MapLike, memo as _memo } from "./memo.ts";
 
-Function.prototype.memo = function <A extends unknown[], R>(
-  this: (...args: A) => R,
-  cache?: MapLike<object, R>,
-  keying?: (args: A) => unknown[],
-): (...args: A) => R {
-  return memo(this, cache, keying);
+Function.prototype.memo = function memo<T extends (...args: any) => any>(
+  this: T,
+  cache?: MapLike<object, ReturnType<T>>,
+  keying?: (args: Parameters<T>) => unknown[],
+): T {
+  return _memo(this, cache, keying);
 };
 
 declare global {
   interface Function {
-    memo<A extends unknown[], R>(
-      this: (...args: A) => R,
-      cache?: MapLike<object, R>,
-      keying?: (args: A) => unknown[],
-    ): (...args: A) => R;
+    /** Returns the proxy function whose call is monitored. It calls at most once for each given arguments. */
+    memo<T extends (...args: any) => any>(
+      this: T,
+      cache?: MapLike<object, ReturnType<T>>,
+      keying?: (args: Parameters<T>) => unknown[],
+    ): T;
   }
 }

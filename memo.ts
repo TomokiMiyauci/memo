@@ -1,12 +1,11 @@
 // Copyright 2023-latest Tomoki Miyauchi. All rights reserved. MIT license.
 // This module is browser compatible.
 
-// deno-lint-ignore-file ban-types
+// deno-lint-ignore-file ban-types no-explicit-any
 
-import { compositeKey } from "./composite_key.ts";
-import { setFunctionLength, setFunctionName } from "./utils.ts";
+import { compositeKey } from "./deps.ts";
 
-/** Create a new function that calls the original function at most once for each given arguments.
+/** Returns the proxy function whose call is monitored. It calls at most once for each given arguments.
  * @example
  * ```ts
  * import { memo } from "https://deno.land/x/memoization@$VERSION/memo.ts";
@@ -39,28 +38,31 @@ import { setFunctionLength, setFunctionName } from "./utils.ts";
  * fib(1000);
  * ```
  */
-export function memo<A extends unknown[], R>(
-  fn: (...args: A) => R,
-  cache: MapLike<object, R> = new WeakMap<object, R>(),
+export function memo<T extends (...args: any) => any>(
+  fn: T,
+  cache: MapLike<object, ReturnType<T>> = new WeakMap(),
   /** Keying for cache key. */
-  keying?: (args: A) => unknown[],
-): (...args: A) => R {
-  function memoized(...args: A): R {
-    const key = compositeKey(fn, new.target, ...keying ? keying(args) : args);
+  keying?: (args: Parameters<T>) => unknown[],
+): T {
+  const proxy = new Proxy(fn, {
+    apply(target, thisArg, args: Parameters<T>): ReturnType<T> {
+      const key = compositeKey(
+        target,
+        thisArg,
+        ...keying ? keying(args) : args,
+      );
 
-    if (cache.has(key)) return cache.get(key)!;
+      if (cache.has(key)) return cache.get(key)!;
 
-    const value = fn.apply(null, args);
+      const value = target.apply(thisArg, args);
 
-    cache.set(key, value);
+      cache.set(key, value);
 
-    return value;
-  }
+      return value;
+    },
+  });
 
-  setFunctionLength(memoized, fn.length);
-  setFunctionName(memoized, fn.name, "memoized");
-
-  return memoized;
+  return proxy;
 }
 
 /** {@link Map} like object. */

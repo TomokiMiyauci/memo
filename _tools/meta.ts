@@ -1,9 +1,9 @@
-import { BuildOptions } from "https://deno.land/x/dnt@0.34.0/mod.ts";
+import { BuildOptions } from "https://deno.land/x/dnt@0.37.0/mod.ts";
 
 export const makeOptions = (version: string): BuildOptions => ({
   test: false,
   shims: {},
-  typeCheck: true,
+  typeCheck: "both",
   entryPoints: ["./mod.ts", "./polyfill.ts"],
   outDir: "./npm",
   package: {
@@ -34,4 +34,10 @@ export const makeOptions = (version: string): BuildOptions => ({
     publishConfig: { access: "public" },
   },
   packageManager: "pnpm",
+  mappings: {
+    "https://deno.land/x/composite_key@1.0.0/mod.ts": {
+      name: "composite-key",
+      version: "1.0.0",
+    },
+  },
 });
