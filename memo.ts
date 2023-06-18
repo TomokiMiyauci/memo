@@ -90,7 +90,7 @@ export function memo(
   return proxy;
 }
 
-/** {@link Map} like object. */
+/** {@link Map} like API. */
 export interface MapLike<K, V> {
   /** Returns a specified element. If the value that is associated to the provided key is an object, then you will get a reference to that object and any change made to that object will effectively modify it. */
   get(key: K): V | undefined;
