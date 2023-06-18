@@ -3,7 +3,7 @@
 
 // deno-lint-ignore-file ban-types no-explicit-any
 
-import { compositeKey } from "./deps.ts";
+import { compositeKey, emplace } from "./deps.ts";
 
 /** Returns the proxy function whose call is monitored. It calls at most once for each given arguments.
  * @example
@@ -61,12 +61,9 @@ export function memo(
         thisArg,
         ...keying ? keying(args) : args,
       );
-
-      if (cache.has(key)) return cache.get(key)!;
-
-      const value = Reflect.apply(target, thisArg, args);
-
-      cache.set(key, value);
+      const value = emplace(cache, key, {
+        insert: () => Reflect.apply(target, thisArg, args),
+      });
 
       return value;
     },
@@ -76,12 +73,9 @@ export function memo(
         newTarget,
         ...keying ? keying(args) : args,
       );
-
-      if (cache.has(key)) return cache.get(key)!;
-
-      const value = Reflect.construct(target, args, newTarget);
-
-      cache.set(key, value);
+      const value = emplace(cache, key, {
+        insert: () => Reflect.construct(target, args, newTarget),
+      });
 
       return value;
     },
