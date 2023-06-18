@@ -1,9 +1,9 @@
-// Copyright 2023-latest Tomoki Miyauchi. All rights reserved. MIT license.
+// Copyright © 2023 Tomoki Miyauchi. All rights reserved. MIT license.
 // This module is browser compatible.
 
 // deno-lint-ignore-file ban-types no-explicit-any
 
-import { compositeKey } from "./deps.ts";
+import { compositeKey, emplace } from "./deps.ts";
 
 /** Returns the proxy function whose call is monitored. It calls at most once for each given arguments.
  * @example
@@ -40,23 +40,42 @@ import { compositeKey } from "./deps.ts";
  */
 export function memo<T extends (...args: any) => any>(
   fn: T,
-  cache: MapLike<object, ReturnType<T>> = new WeakMap(),
+  cache?: MapLike<object, ReturnType<T>>,
   /** Keying for cache key. */
   keying?: (args: Parameters<T>) => unknown[],
-): T {
+): T;
+export function memo<T extends abstract new (...args: any) => any>(
+  fn: T,
+  cache?: MapLike<object, InstanceType<T>>,
+  keying?: (args: ConstructorParameters<T>) => unknown[],
+): T;
+export function memo(
+  fn: Function,
+  cache: MapLike<object, unknown> = new WeakMap(),
+  keying?: (args: unknown[]) => unknown[],
+): Function {
   const proxy = new Proxy(fn, {
-    apply(target, thisArg, args: Parameters<T>): ReturnType<T> {
+    apply(target, thisArg, args) {
       const key = compositeKey(
         target,
         thisArg,
         ...keying ? keying(args) : args,
       );
+      const value = emplace(cache, key, {
+        insert: () => Reflect.apply(target, thisArg, args),
+      });
 
-      if (cache.has(key)) return cache.get(key)!;
-
-      const value = target.apply(thisArg, args);
-
-      cache.set(key, value);
+      return value;
+    },
+    construct(target, args, newTarget) {
+      const key = compositeKey(
+        target,
+        newTarget,
+        ...keying ? keying(args) : args,
+      );
+      const value = emplace(cache, key, {
+        insert: () => Reflect.construct(target, args, newTarget),
+      });
 
       return value;
     },
@@ -65,7 +84,7 @@ export function memo<T extends (...args: any) => any>(
   return proxy;
 }
 
-/** {@link Map} like object. */
+/** {@link Map} like API. */
 export interface MapLike<K, V> {
   /** Returns a specified element. If the value that is associated to the provided key is an object, then you will get a reference to that object and any change made to that object will effectively modify it. */
   get(key: K): V | undefined;

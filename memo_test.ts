@@ -1,8 +1,8 @@
-// Copyright 2023-latest Tomoki Miyauchi. All rights reserved. MIT license.
-// This module is browser compatible.
+// Copyright © 2023 Tomoki Miyauchi. All rights reserved. MIT license.
 
 import { memo } from "./memo.ts";
 import {
+  assert,
   assertEquals,
   assertSpyCalls,
   describe,
@@ -93,5 +93,61 @@ describe("memo", () => {
     $test({ value: 1 });
 
     assertSpyCalls(test, 2);
+  });
+
+  it("should memoize with this context", () => {
+    interface Context {
+      x: string;
+    }
+    function f(this: Context, arg: number) {
+      return this.x + arg;
+    }
+    const $f = memo(spy(f));
+
+    const t1: Context = { x: "a" };
+    const t2: Context = { x: "b" };
+
+    assertEquals($f.call(t1, 0), "a0");
+    assertEquals($f.call(t1, 1), "a1");
+    assertEquals($f.call(t2, 0), "b0");
+    assertEquals($f.call(t2, 1), "b1");
+
+    assertSpyCalls($f, 4);
+
+    $f.call(t1, 0);
+    $f.call(t1, 1);
+    $f.call(t2, 0);
+    $f.call(t2, 1);
+
+    assertSpyCalls($f, 4);
+  });
+
+  it("should memoize Error constructor", () => {
+    const $Error = memo(Error);
+    const options = {};
+
+    assert(new Error() !== new Error());
+
+    assert(new $Error() === new $Error());
+    assert(new $Error("a") === new $Error("a"));
+    assert(new $Error("a", options) === new $Error("a", options));
+
+    assert(new $Error("") !== new $Error());
+    assert(new $Error("a") !== new $Error("b"));
+    assert(new $Error() !== $Error());
+    assert(new $Error("a") !== $Error("a"));
+  });
+
+  it("should customize keying for constructor", () => {
+    const $Error = memo(Error, undefined, () => []);
+    const options = {};
+
+    assert(new Error() !== new Error());
+
+    assert(new $Error() === new $Error());
+    assert(new $Error("a") === new $Error("a"));
+    assert(new $Error("a", options) === new $Error("a", options));
+    assert(new $Error("") === new $Error());
+    assert(new $Error("a") === new $Error("b"));
   });
 });

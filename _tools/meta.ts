@@ -39,5 +39,9 @@ export const makeOptions = (version: string): BuildOptions => ({
       name: "composite-key",
       version: "1.0.0",
     },
+    "https://deno.land/x/upsert@1.1.0/mod.ts": {
+      name: "@miyauci/upsert",
+      version: "1.1.0",
+    },
   },
 });
