@@ -120,10 +120,10 @@ const $respond = memo(
 );
 ```
 
-### Instance caching
+### Instantiation caching
 
-Caching of instances is also supported. Calls to constructor functions with the
-`new` operator are cacheable based on their arguments, as are functions.
+Caching of instantiation is also supported. Calls to constructor functions with
+the `new` operator are cacheable based on their arguments, as are functions.
 
 ```ts
 import { memo } from "https://deno.land/x/memoization@$VERSION/mod.ts";
