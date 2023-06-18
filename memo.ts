@@ -40,12 +40,22 @@ import { compositeKey } from "./deps.ts";
  */
 export function memo<T extends (...args: any) => any>(
   fn: T,
-  cache: MapLike<object, ReturnType<T>> = new WeakMap(),
+  cache?: MapLike<object, ReturnType<T>>,
   /** Keying for cache key. */
   keying?: (args: Parameters<T>) => unknown[],
-): T {
+): T;
+export function memo<T extends abstract new (...args: any) => any>(
+  fn: T,
+  cache?: MapLike<object, InstanceType<T>>,
+  keying?: (args: ConstructorParameters<T>) => unknown[],
+): T;
+export function memo(
+  fn: Function,
+  cache: MapLike<object, unknown> = new WeakMap(),
+  keying?: (args: unknown[]) => unknown[],
+): Function {
   const proxy = new Proxy(fn, {
-    apply(target, thisArg, args: Parameters<T>): ReturnType<T> {
+    apply(target, thisArg, args) {
       const key = compositeKey(
         target,
         thisArg,
@@ -60,7 +70,7 @@ export function memo<T extends (...args: any) => any>(
 
       return value;
     },
-    construct(target, args: Parameters<T>, newTarget) {
+    construct(target, args, newTarget) {
       const key = compositeKey(
         target,
         newTarget,
