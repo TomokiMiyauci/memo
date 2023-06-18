@@ -73,9 +73,7 @@ The cache must implement the following interfaces:
 ```ts
 interface MapLike<K, V> {
   get(key: K): V | undefined;
-
   has(key: K): boolean;
-
   set(key: K, value: V): void;
 }
 ```
@@ -96,14 +94,28 @@ const $fn = memo(fn, lruCache);
 
 ### Keying
 
-Cache keys are `this` and arguments represented by
+Cache keys are represented by
 [composite keys](https://github.com/tc39/proposal-richer-keys/tree/master/compositeKey).
 
-The equivalence of composite key is the
-[Same-value-zero](https://tc39.es/ecma262/#sec-samevaluezero) algorithm. By
-default, all arguments are used for the cache key.
+The composite keys are passed several elements for the key, called components.
 
-Specify `keying` to change the representation of arguments used for cache keys.
+The components are as follows:
+
+- target function
+- this arg(`this`)
+- new target(`new.target`)
+- args
+
+Of these, target function is used to identify a unique function. The target
+function is not used to identify a unique function, since the composite key is a
+global registry. For more information, see
+[FAQ: What scope is the idempotentcy?](https://github.com/tc39/proposal-richer-keys/tree/master/compositeKey#what-scope-is-the-idempotentcy)
+
+Also, composite key employs the
+[same-value-zero](https://tc39.es/ecma262/#sec-samevaluezero) algorithm to
+verify the equivalence of each component.
+
+You can modify the args component through the `keying` callback.
 
 ```ts
 import {
@@ -120,10 +132,14 @@ const $respond = memo(
 );
 ```
 
+Currently, only the args component can be modified. This is being discussed in
+[#4 (comment)](https://github.com/tc39/proposal-function-memo/issues/4#issuecomment-1083552333)
+and it is not clear how this arg and new target should be handled.
+
 ### Instantiation caching
 
 Caching of instantiation is also supported. Calls to constructor functions with
-the `new` operator are cacheable based on their arguments, as are functions.
+the `new` operator are cacheable based on their arguments.
 
 ```ts
 import { memo } from "https://deno.land/x/memoization@$VERSION/mod.ts";
