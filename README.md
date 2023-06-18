@@ -120,6 +120,26 @@ const $respond = memo(
 );
 ```
 
+### Instance caching
+
+Caching of instances is also supported. Calls to constructor functions with the
+`new` operator are cacheable based on their arguments, as are functions.
+
+```ts
+import { memo } from "https://deno.land/x/memoization@$VERSION/mod.ts";
+import { assert } from "https://deno.land/std/testing/asserts.ts";
+
+assert(new Error() !== new Error());
+
+const $Error = memo(Error);
+
+assert(new $Error() === new $Error());
+assert($Error("test") === $Error("test"));
+
+assert(new $Error() !== $Error());
+assert(new $Error() !== new $Error("test"));
+```
+
 ### Polyfill
 
 Polyfill affects the global object. You must be very careful when using it.

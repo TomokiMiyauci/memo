@@ -3,6 +3,7 @@
 
 import { memo } from "./memo.ts";
 import {
+  assert,
   assertEquals,
   assertSpyCalls,
   describe,
@@ -120,5 +121,34 @@ describe("memo", () => {
     $f.call(t2, 1);
 
     assertSpyCalls($f, 4);
+  });
+
+  it("should memoize Error constructor", () => {
+    const $Error = memo(Error);
+    const options = {};
+
+    assert(new Error() !== new Error());
+
+    assert(new $Error() === new $Error());
+    assert(new $Error("a") === new $Error("a"));
+    assert(new $Error("a", options) === new $Error("a", options));
+
+    assert(new $Error("") !== new $Error());
+    assert(new $Error("a") !== new $Error("b"));
+    assert(new $Error() !== $Error());
+    assert(new $Error("a") !== $Error("a"));
+  });
+
+  it("should customize keying for constructor", () => {
+    const $Error = memo(Error, undefined, () => []);
+    const options = {};
+
+    assert(new Error() !== new Error());
+
+    assert(new $Error() === new $Error());
+    assert(new $Error("a") === new $Error("a"));
+    assert(new $Error("a", options) === new $Error("a", options));
+    assert(new $Error("") === new $Error());
+    assert(new $Error("a") === new $Error("b"));
   });
 });

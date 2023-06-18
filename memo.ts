@@ -54,7 +54,22 @@ export function memo<T extends (...args: any) => any>(
 
       if (cache.has(key)) return cache.get(key)!;
 
-      const value = target.apply(thisArg, args);
+      const value = Reflect.apply(target, thisArg, args);
+
+      cache.set(key, value);
+
+      return value;
+    },
+    construct(target, args: Parameters<T>, newTarget) {
+      const key = compositeKey(
+        target,
+        newTarget,
+        ...keying ? keying(args) : args,
+      );
+
+      if (cache.has(key)) return cache.get(key)!;
+
+      const value = Reflect.construct(target, args, newTarget);
 
       cache.set(key, value);
 
