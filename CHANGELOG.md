@@ -1,3 +1,11 @@
+# [1.2.0](https://github.com/TomokiMiyauci/memo/compare/1.1.0...1.2.0) (2023-06-18)
+
+
+### Features
+
+* **memo:** add overload for constructor ([acb9380](https://github.com/TomokiMiyauci/memo/commit/acb93808df981092e3c95320077d8cd7e28c41ac))
+* **memo:** support for caching of calls with `new` operator ([693ec23](https://github.com/TomokiMiyauci/memo/commit/693ec23c8f7773dc00188213e548c9dd1ad9b157))
+
 # [1.2.0-beta.1](https://github.com/TomokiMiyauci/memo/compare/1.1.0...1.2.0-beta.1) (2023-06-18)
 
 
