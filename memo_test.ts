@@ -94,4 +94,31 @@ describe("memo", () => {
 
     assertSpyCalls(test, 2);
   });
+
+  it("should memoize with this context", () => {
+    interface Context {
+      x: string;
+    }
+    function f(this: Context, arg: number) {
+      return this.x + arg;
+    }
+    const $f = memo(spy(f));
+
+    const t1: Context = { x: "a" };
+    const t2: Context = { x: "b" };
+
+    assertEquals($f.call(t1, 0), "a0");
+    assertEquals($f.call(t1, 1), "a1");
+    assertEquals($f.call(t2, 0), "b0");
+    assertEquals($f.call(t2, 1), "b1");
+
+    assertSpyCalls($f, 4);
+
+    $f.call(t1, 0);
+    $f.call(t1, 1);
+    $f.call(t2, 0);
+    $f.call(t2, 1);
+
+    assertSpyCalls($f, 4);
+  });
 });
