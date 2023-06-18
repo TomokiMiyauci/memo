@@ -1,5 +1,4 @@
-// Copyright 2023-latest Tomoki Miyauchi. All rights reserved. MIT license.
-// This module is browser compatible.
+// Copyright © 2023 Tomoki Miyauchi. All rights reserved. MIT license.
 
 import { memo } from "./memo.ts";
 import {

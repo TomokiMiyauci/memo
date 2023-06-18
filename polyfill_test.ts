@@ -1,3 +1,5 @@
+// Copyright © 2023 Tomoki Miyauchi. All rights reserved. MIT license.
+
 import "./polyfill.ts";
 import { assert, assertSpyCalls, describe, it, spy } from "./_dev_deps.ts";
 
