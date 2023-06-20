@@ -15,6 +15,18 @@ Memoization tools, TC39
 [proposal-function-memo](https://github.com/tc39/proposal-function-memo)
 implementation.
 
+## Table of Contents <!-- omit in toc -->
+
+- [Install](#install)
+- [Usage](#usage)
+  - [Custom cache](#custom-cache)
+  - [Keying](#keying)
+  - [Instantiation caching](#instantiation-caching)
+  - [Polyfill](#polyfill)
+- [API](#api)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Install
 
 deno.land:
