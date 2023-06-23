@@ -32,7 +32,7 @@ implementation.
 deno.land:
 
 ```ts
-import * as mod from "https://deno.land/x/memoization@$VERSION/mod.ts";
+import * as mod from "https://deno.land/x/memoization/mod.ts";
 ```
 
 npm:
@@ -47,7 +47,7 @@ Returns the proxy function whose call is monitored. It calls at most once for
 each given arguments.
 
 ```ts
-import { memo } from "https://deno.land/x/memoization@$VERSION/mod.ts";
+import { memo } from "https://deno.land/x/memoization/mod.ts";
 
 function f(x: number): number {
   console.log(x);
@@ -65,7 +65,7 @@ fMemo(3); // Does not print anything. Returns 6.
 Either version would work with recursive functions:
 
 ```ts
-import { memo } from "https://deno.land/x/memoization@$VERSION/mod.ts";
+import { memo } from "https://deno.land/x/memoization/mod.ts";
 
 const fib = memo((num: number): number => {
   if (num < 2) return num;
@@ -93,10 +93,7 @@ interface MapLike<K, V> {
 By default, an unlimited cache is used by `WeakMap`.
 
 ```ts
-import {
-  type MapLike,
-  memo,
-} from "https://deno.land/x/memoization@$VERSION/mod.ts";
+import { type MapLike, memo } from "https://deno.land/x/memoization/mod.ts";
 
 declare const lruCache: MapLike<object, unknown>;
 declare const fn: () => unknown;
@@ -134,10 +131,7 @@ verify the equivalence of each component.
 You can modify the args component through the `keying` callback.
 
 ```ts
-import {
-  type MapLike,
-  memo,
-} from "https://deno.land/x/memoization@$VERSION/mod.ts";
+import { type MapLike, memo } from "https://deno.land/x/memoization/mod.ts";
 
 declare const respond: (request: Request) => Response;
 
@@ -158,7 +152,7 @@ Caching of instantiation is also supported. Calls to constructor functions with
 the `new` operator are cacheable based on their arguments.
 
 ```ts
-import { memo } from "https://deno.land/x/memoization@$VERSION/mod.ts";
+import { memo } from "https://deno.land/x/memoization/mod.ts";
 import { assert } from "https://deno.land/std/testing/asserts.ts";
 
 assert(new Error() !== new Error());
@@ -177,7 +171,7 @@ assert(new $Error() !== new $Error("test"));
 Polyfill affects the global object. You must be very careful when using it.
 
 ```ts
-import "https://deno.land/x/memoization@$VERSION/polyfill.ts";
+import "https://deno.land/x/memoization/polyfill.ts";
 
 const fib = ((num: number): number => {
   if (num < 2) return num;

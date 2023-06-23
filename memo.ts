@@ -8,7 +8,7 @@ import { compositeKey, emplace } from "./deps.ts";
 /** Returns the proxy function whose call is monitored. It calls at most once for each given arguments.
  * @example
  * ```ts
- * import { memo } from "https://deno.land/x/memoization@$VERSION/memo.ts";
+ * import { memo } from "https://deno.land/x/memoization/memo.ts";
  *
  * function f(x: number): number {
  *  console.log(x);
@@ -27,7 +27,7 @@ import { compositeKey, emplace } from "./deps.ts";
  *
  * @example
  * ```ts
- * import { memo } from "https://deno.land/x/memoization@$VERSION/memo.ts";
+ * import { memo } from "https://deno.land/x/memoization/memo.ts";
  *
  * const fib = memo((num: number): number => {
  *  if (num < 2) return num;
