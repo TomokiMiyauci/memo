@@ -104,6 +104,10 @@ declare const fn: () => unknown;
 const $fn = memo(fn, lruCache);
 ```
 
+See TC39
+[proposal-policy-map-set](https://github.com/tc39/proposal-policy-map-set) and
+its [implementation](https://github.com/TomokiMiyauci/cache-mapset).
+
 ### Keying
 
 Cache keys are represented by
