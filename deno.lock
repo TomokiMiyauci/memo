@@ -3,8 +3,13 @@
   "packages": {
     "specifiers": {
       "jsr:@miyauci/composite-key@1.1.0-beta.1": "jsr:@miyauci/composite-key@1.1.0-beta.1",
+      "jsr:@miyauci/composite-key@^1.1.0": "jsr:@miyauci/composite-key@1.1.0",
       "jsr:@miyauci/upsert@1.3.0": "jsr:@miyauci/upsert@1.3.0",
-      "jsr:@miyauci/upsert@^1.3.0": "jsr:@miyauci/upsert@1.3.0"
+      "jsr:@miyauci/upsert@^1.3.0": "jsr:@miyauci/upsert@1.3.0",
+      "jsr:@std/assert@1.0.0-rc.2": "jsr:@std/assert@1.0.0-rc.2",
+      "jsr:@std/assert@^0.226.0": "jsr:@std/assert@0.226.0",
+      "jsr:@std/internal@^1.0.0": "jsr:@std/internal@1.0.0",
+      "jsr:@std/testing@^0.225.3": "jsr:@std/testing@0.225.3"
     },
     "jsr": {
       "@miyauci/composite-key@1.1.0": {
@@ -21,6 +26,24 @@
       },
       "@miyauci/upsert@1.3.0": {
         "integrity": "56c4a2a7ebdf7e6e085b0ce36a1ea01f5bc1f552cee23fad04e021453652fa53"
+      },
+      "@std/assert@0.226.0": {
+        "integrity": "0dfb5f7c7723c18cec118e080fec76ce15b4c31154b15ad2bd74822603ef75b3",
+        "dependencies": [
+          "jsr:@std/internal@^1.0.0"
+        ]
+      },
+      "@std/assert@1.0.0-rc.2": {
+        "integrity": "0484eab1d76b55fca1c3beaff485a274e67dd3b9f065edcbe70030dfc0b964d3"
+      },
+      "@std/internal@1.0.0": {
+        "integrity": "ac6a6dfebf838582c4b4f61a6907374e27e05bedb6ce276e0f1608fe84e7cd9a"
+      },
+      "@std/testing@0.225.3": {
+        "integrity": "348c24d0479d44ab3dbb4f26170f242e19f24051b45935d4a9e7ca0ab7e37780",
+        "dependencies": [
+          "jsr:@std/assert@1.0.0-rc.2"
+        ]
       }
     }
   },
@@ -41,5 +64,13 @@
     "https://deno.land/x/upsert@1.1.0/emplace.ts": "d19fe84f23133b9a77d04aad9fb51f83fb20446bc335c404749b5610408a3570",
     "https://deno.land/x/upsert@1.1.0/mixin.ts": "2c758419ad5291411c88075e31bd1efa8521c0368d1f23e8e50669668d5b1174",
     "https://deno.land/x/upsert@1.1.0/mod.ts": "b539273ac26f46a6fe3d87854944e58b377be259e5d251202743b63f6c180120"
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@miyauci/composite-key@^1.1.0",
+      "jsr:@miyauci/upsert@^1.3.0",
+      "jsr:@std/assert@^0.226.0",
+      "jsr:@std/testing@^0.225.3"
+    ]
   }
 }

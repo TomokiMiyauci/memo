@@ -8,7 +8,7 @@
  *
  * @example
  * ```ts
- * import "https://deno.land/x/memoization/polyfill.ts";
+ * import "@miyauci/memo/polyfill";
  *
  * const fib = ((num: number): number => {
  *   if (num < 2) return num;
