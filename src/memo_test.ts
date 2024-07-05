@@ -1,14 +1,9 @@
 // Copyright © 2023 Tomoki Miyauchi. All rights reserved. MIT license.
 
 import { memo } from "../src/memo.ts";
-import {
-  assert,
-  assertEquals,
-  assertSpyCalls,
-  describe,
-  it,
-  spy,
-} from "./_dev_deps.ts";
+import { describe, it } from "@std/testing/bdd";
+import { assertSpyCalls, spy } from "@std/testing/mock";
+import { assert, assertEquals } from "@std/assert";
 
 describe("memo", () => {
   it("should call once if nullary", () => {
