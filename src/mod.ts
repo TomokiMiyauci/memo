@@ -3,7 +3,6 @@
 
 /** This module is memoization tools, ponyfill for TC39 [proposal-function-memo](https://github.com/tc39/proposal-function-memo).
  *
- * You can find [polyfill](./polyfill.ts).
  * @module
  */
 

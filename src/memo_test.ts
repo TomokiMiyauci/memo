@@ -1,6 +1,6 @@
 // Copyright © 2023 Tomoki Miyauchi. All rights reserved. MIT license.
 
-import { memo } from "./memo.ts";
+import { memo } from "../src/memo.ts";
 import {
   assert,
   assertEquals,
