@@ -1,3 +1,10 @@
+# [1.3.0-beta.1](https://github.com/TomokiMiyauci/memo/compare/1.2.0...1.3.0-beta.1) (2024-07-06)
+
+
+### Features
+
+* **src:** replace external with jsr package ([abc92ff](https://github.com/TomokiMiyauci/memo/commit/abc92ffe8896d97962e3067889b3a6fa469977b8))
+
 # [1.2.0](https://github.com/TomokiMiyauci/memo/compare/1.1.0...1.2.0) (2023-06-18)
 
 
