@@ -6,7 +6,7 @@
 // deno-lint-ignore-file no-explicit-any
 
 /**
- * Polyfill affects the global object. You must be very careful when using it.
+ * Polyfill affects the global object.
  *
  * @example
  * ```ts
@@ -20,6 +20,8 @@
  *
  * fib(1000);
  * ```
+ *
+ * @module
  */
 
 import { type MapLike, memo as _memo } from "./memo.ts";
