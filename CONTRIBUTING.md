@@ -51,12 +51,6 @@ deno lint
 This will run all logic test and document test.
 
 ```bash
-deno test --import-map=./_test_import_map.json --doc
-```
-
-or
-
-```bash
 deno task test
 ```
 
