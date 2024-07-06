@@ -1,4 +1,5 @@
 {
+  "name": "@miyauci/memo",
   "tasks": {
     "test": "deno test --doc"
   },
@@ -15,5 +16,9 @@
     "@std/testing": "jsr:@std/testing@^0.225.3",
     "@miyauci/memo": "./src/mod.ts",
     "@miyauci/memo/polyfill": "./src/polyfill.ts"
+  },
+  "exports": {
+    ".": "./src/mod.ts",
+    "./polyfill": "./src/polyfill.ts"
   }
 }
