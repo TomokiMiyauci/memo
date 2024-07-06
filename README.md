@@ -1,15 +1,10 @@
 # memo
 
-[![deno land](http://img.shields.io/badge/available%20on-deno.land/x-lightgrey.svg?logo=deno)](https://deno.land/x/memoization)
-[![deno doc](https://doc.deno.land/badge.svg)](https://deno.land/x/memoization?doc)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/TomokiMiyauci/memo)](https://github.com/TomokiMiyauci/memo/releases)
-[![codecov](https://codecov.io/github/TomokiMiyauci/memo/branch/main/graph/badge.svg)](https://codecov.io/gh/TomokiMiyauci/memo)
-[![License](https://img.shields.io/github/license/TomokiMiyauci/memo)](LICENSE)
-
-[![test](https://github.com/TomokiMiyauci/memo/actions/workflows/test.yaml/badge.svg)](https://github.com/TomokiMiyauci/memo/actions/workflows/test.yaml)
-[![NPM](https://nodei.co/npm/@miyauci/memo.png?mini=true)](https://nodei.co/npm/@miyauci/memo/)
-[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
+[![JSR](https://jsr.io/badges/@miyauci/memo)](https://jsr.io/@miyauci/memo)
+[![codecov](https://codecov.io/gh/TomokiMiyauci/memo/graph/badge.svg?token=0P175I3F06)](https://codecov.io/gh/TomokiMiyauci/memo)
+[![GitHub](https://img.shields.io/github/license/TomokiMiyauci/memo)](https://github.com/TomokiMiyauci/memo/blob/main/LICENSE)
 [![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
+[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg)](https://github.com/RichardLitt/standard-readme)
 
 Memoization tools, TC39
 [proposal-function-memo](https://github.com/tc39/proposal-function-memo)
@@ -29,16 +24,16 @@ implementation.
 
 ## Install
 
-deno.land:
-
-```ts
-import * as mod from "@miyauci/memo";
-```
-
-npm:
+deno:
 
 ```bash
-npm i @miyauci/memo
+deno add @miyauci/memo
+```
+
+node:
+
+```bash
+npx jsr add @miyauci/memo
 ```
 
 ## Usage
@@ -138,7 +133,7 @@ declare const respond: (request: Request) => Response;
 const $respond = memo(
   respond,
   undefined,
-  ([request]) => [request.method, request.url],
+  ([request]) => [request.method, request.url.toString()],
 );
 ```
 
@@ -184,7 +179,7 @@ fib(1000);
 
 ## API
 
-See [deno doc](https://deno.land/x/memoization?doc) for all APIs.
+See [jsr doc](https://jsr.io/@miyauci/memo) for all APIs.
 
 ## Contributing
 
