@@ -43,7 +43,7 @@ export function memo<T extends (...args: any) => any>(
   fn: T,
   cache?: MapLike<object, ReturnType<T>>,
   /** Keying for cache key. */
-  keying?: (args: Parameters<T>) => unknown[],
+  keying?: (this: ThisParameterType<T>, args: Parameters<T>) => unknown[],
 ): T;
 export function memo<T extends abstract new (...args: any) => any>(
   fn: T,
@@ -59,8 +59,7 @@ export function memo(
     apply(target, thisArg, args) {
       const key = compositeKey(
         target,
-        thisArg,
-        ...keying ? keying(args) : args,
+        ...keying ? keying.call(thisArg, args) : [thisArg, ...args],
       );
       const value = emplace(cache, key, {
         insert: () => Reflect.apply(target, thisArg, args),

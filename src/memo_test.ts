@@ -90,6 +90,38 @@ describe("memo", () => {
     assertSpyCalls(test, 2);
   });
 
+  it("should contain this in keying", () => {
+    const test = spy(function (this: { a: string }, a: { value: number }) {
+      return this.a + a.value;
+    });
+
+    const $test = memo(test, undefined);
+
+    $test.call({ a: "a" }, { value: 0 });
+    $test.call({ a: "a" }, { value: 0 });
+    $test.call({ a: "b" }, { value: 1 });
+    $test.call({ a: "b" }, { value: 1 });
+
+    assertSpyCalls(test, 4);
+  });
+
+  it("should override keying with this", () => {
+    const test = spy(function (this: { a: string }, a: { value: number }) {
+      return this.a + a.value;
+    });
+
+    const $test = memo(test, undefined, function (args) {
+      return [this.a, args[0].value];
+    });
+
+    $test.call({ a: "a" }, { value: 0 });
+    $test.call({ a: "a" }, { value: 0 });
+    $test.call({ a: "b" }, { value: 1 });
+    $test.call({ a: "b" }, { value: 1 });
+
+    assertSpyCalls(test, 2);
+  });
+
   it("should memoize with this context", () => {
     interface Context {
       x: string;
