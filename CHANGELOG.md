@@ -1,3 +1,10 @@
+# [1.3.0-beta.2](https://github.com/TomokiMiyauci/memo/compare/1.3.0-beta.1...1.3.0-beta.2) (2024-07-07)
+
+
+### Features
+
+* **memo:** change to pass this to the keying function ([35311c2](https://github.com/TomokiMiyauci/memo/commit/35311c2e793322e5895be0c6b25ca4f1ae896fd9))
+
 # [1.3.0-beta.1](https://github.com/TomokiMiyauci/memo/compare/1.2.0...1.3.0-beta.1) (2024-07-06)
 
 
