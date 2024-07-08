@@ -3,7 +3,7 @@
 
 /// <reference path="./polyfill.d.ts"/>
 
-// deno-lint-ignore-file no-explicit-any
+// deno-lint-ignore-file no-explicit-any ban-types
 
 /**
  * Polyfill affects the global object.
@@ -26,10 +26,10 @@
 
 import { type MapLike, memo as _memo } from "./memo.ts";
 
-Function.prototype.memo = function memo<T extends (...args: any) => any>(
-  this: T,
-  cache?: MapLike<object, ReturnType<T>>,
-  keying?: (args: Parameters<T>) => unknown[],
-): T {
-  return _memo(this, cache, keying);
+Function.prototype.memo = function memo(
+  this: Function,
+  cache?: MapLike<object, unknown>,
+  keying?: (thisArg: any, args: unknown[], newTarget?: any) => unknown[],
+): Function {
+  return _memo(this as any, cache, keying);
 };

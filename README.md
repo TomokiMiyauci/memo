@@ -16,7 +16,8 @@ implementation.
 - [Usage](#usage)
   - [Custom cache](#custom-cache)
   - [Keying](#keying)
-  - [Instantiation caching](#instantiation-caching)
+  - [Construction caching](#construction-caching)
+    - [Keying for construction](#keying-for-construction)
   - [Polyfill](#polyfill)
 - [API](#api)
 - [Contributing](#contributing)
@@ -107,23 +108,16 @@ Cache keys are represented by
 
 The composite keys are passed several elements for the key, called components.
 
-The components are as follows:
+The default components are as follows:
 
-- target function
 - this arg(`this`)
-- new target(`new.target`)
 - args
-
-Of these, target function is used to identify a unique function. The target
-function is not used to identify a unique function, since the composite key is a
-global registry. For more information, see
-[FAQ: What scope is the idempotentcy?](https://github.com/tc39/proposal-richer-keys/tree/master/compositeKey#what-scope-is-the-idempotentcy)
 
 Also, composite key employs the
 [same-value-zero](https://tc39.es/ecma262/#sec-samevaluezero) algorithm to
 verify the equivalence of each component.
 
-You can modify the args component through the `keying` callback.
+You can modify the component through the `keying` callback.
 
 ```ts
 import { type MapLike, memo } from "@miyauci/memo";
@@ -133,32 +127,50 @@ declare const respond: (request: Request) => Response;
 const $respond = memo(
   respond,
   undefined,
-  ([request]) => [request.method, request.url.toString()],
+  (thisArg, [request]) => [request.method, request.url.toString()],
 );
 ```
 
-Currently, only the args component can be modified. This is being discussed in
-[#4 (comment)](https://github.com/tc39/proposal-function-memo/issues/4#issuecomment-1083552333)
-and it is not clear how this arg and new target should be handled.
+### Construction caching
 
-### Instantiation caching
-
-Caching of instantiation is also supported. Calls to constructor functions with
+Caching of construction is also supported. Calls to constructor functions with
 the `new` operator are cacheable based on their arguments.
 
 ```ts
 import { memo } from "@miyauci/memo";
 import { assert } from "@std/assert";
 
-assert(new Error() !== new Error());
+declare const url: string;
 
-const $Error = memo(Error);
+assert(new URL(url) !== new URL(url));
 
-assert(new $Error() === new $Error());
-assert($Error("test") === $Error("test"));
+const $URL = memo(URL);
 
-assert(new $Error() !== $Error());
-assert(new $Error() !== new $Error("test"));
+assert(new $URL(url) === new $URL(url));
+```
+
+#### Keying for construction
+
+Unlike in the case of functions, the following components are used as keys by
+default in the construction:
+
+- args
+- newTarget(`new.target`)
+
+You can specify `keying` as in the function.
+
+```ts
+import { type MapLike, memo } from "@miyauci/memo";
+
+const $URL = memo(
+  URL,
+  undefined,
+  (
+    thisArg,
+    [url, base],
+    newTarget,
+  ) => [url.toString(), base?.toString(), newTarget],
+);
 ```
 
 ### Polyfill

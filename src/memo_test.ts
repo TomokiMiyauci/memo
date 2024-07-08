@@ -79,7 +79,7 @@ describe("memo", () => {
   it("should override keying", () => {
     const test = spy((a: { value: number }) => a.value);
 
-    const keying = spy(([a]) => [a.value]);
+    const keying = spy((_: unknown, [a]) => [a.value]);
     const $test = memo(test, undefined, keying);
 
     $test({ value: 0 });
@@ -110,8 +110,8 @@ describe("memo", () => {
       return this.a + a.value;
     });
 
-    const $test = memo(test, undefined, function (args) {
-      return [this.a, args[0].value];
+    const $test = memo(test, undefined, (thisArg, args) => {
+      return [thisArg.a, args[0].value];
     });
 
     $test.call({ a: "a" }, { value: 0 });
@@ -147,6 +147,34 @@ describe("memo", () => {
     $f.call(t2, 1);
 
     assertSpyCalls($f, 4);
+  });
+
+  it("should memoize URL constructor", () => {
+    const url = "https://test.test";
+
+    assert(new URL(url) !== new URL(url));
+
+    const $URL = memo(URL);
+
+    assert(new $URL(url) === new $URL(url));
+  });
+
+  it("should customize keying for constructor", () => {
+    const url = "https://test.test";
+
+    assert(new URL(url) !== new URL(url));
+
+    const $URL = memo(
+      URL,
+      undefined,
+      (
+        _,
+        [url, base],
+        newTarget,
+      ) => [url.toString(), base?.toString(), newTarget],
+    );
+
+    assert(new $URL(new URL(url)) === new $URL(new URL(url)));
   });
 
   it("should memoize Error constructor", () => {

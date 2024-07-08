@@ -5,7 +5,16 @@ interface Function {
   memo<T extends (...args: any) => any>(
     this: T,
     cache?: MapLike<object, ReturnType<T>>,
-    keying?: (args: Parameters<T>) => unknown[],
+    keying?: (thisArg: ThisParameterType<T>, args: Parameters<T>) => unknown[],
+  ): T;
+  memo<T extends abstract new (...args: any) => any>(
+    this: T,
+    cache?: MapLike<object, InstanceType<T>>,
+    keying?: (
+      thisArg: undefined,
+      args: ConstructorParameters<T>,
+      newTarget: Function,
+    ) => unknown[],
   ): T;
 }
 

@@ -42,24 +42,27 @@ import { compositeKey } from "@miyauci/composite-key";
 export function memo<T extends (...args: any) => any>(
   fn: T,
   cache?: MapLike<object, ReturnType<T>>,
-  /** Keying for cache key. */
-  keying?: (this: ThisParameterType<T>, args: Parameters<T>) => unknown[],
+  keying?: (thisArg: ThisParameterType<T>, args: Parameters<T>) => unknown[],
 ): T;
 export function memo<T extends abstract new (...args: any) => any>(
   fn: T,
   cache?: MapLike<object, InstanceType<T>>,
-  keying?: (args: ConstructorParameters<T>) => unknown[],
+  keying?: (
+    thisArg: undefined,
+    args: ConstructorParameters<T>,
+    newTarget: Function,
+  ) => unknown[],
 ): T;
 export function memo(
   fn: Function,
   cache: MapLike<object, unknown> = new WeakMap(),
-  keying?: (args: unknown[]) => unknown[],
+  keying?: (thisArg: any, args: unknown[], newTarget?: any) => unknown[],
 ): Function {
   const proxy = new Proxy(fn, {
     apply(target, thisArg, args) {
       const key = compositeKey(
         target,
-        ...keying ? keying.call(thisArg, args) : [thisArg, ...args],
+        ...keying ? keying(thisArg, args) : [thisArg, ...args],
       );
       const value = emplace(cache, key, {
         insert: () => Reflect.apply(target, thisArg, args),
@@ -70,8 +73,7 @@ export function memo(
     construct(target, args, newTarget) {
       const key = compositeKey(
         target,
-        newTarget,
-        ...keying ? keying(args) : args,
+        ...keying ? keying(undefined, args, newTarget) : [...args, newTarget],
       );
       const value = emplace(cache, key, {
         insert: () => Reflect.construct(target, args, newTarget),
