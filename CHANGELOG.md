@@ -1,3 +1,15 @@
+# [2.0.0-beta.1](https://github.com/TomokiMiyauci/memo/compare/1.3.0-beta.2...2.0.0-beta.1) (2024-07-08)
+
+
+### Features
+
+* change keying callback interface and default behaivor ([9d4f78e](https://github.com/TomokiMiyauci/memo/commit/9d4f78e88cfad4f26f242b89552dde51ab034585))
+
+
+### BREAKING CHANGES
+
+* Change keying interface and behavior
+
 # [1.3.0-beta.2](https://github.com/TomokiMiyauci/memo/compare/1.3.0-beta.1...1.3.0-beta.2) (2024-07-07)
 
 
